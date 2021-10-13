@@ -1,40 +1,56 @@
 import {
+  AppBar,
+  makeStyles,
   Drawer,
   List,
   ListItem,
   ListItemIcon,
   ListItemText,
+  Toolbar,
   Typography,
-} from "@mui/material";
-import { makeStyles } from "@material-ui/core";
+} from "@material-ui/core";
 import AnalyticsIcon from "@mui/icons-material/Analytics";
 import HomeIcon from "@mui/icons-material/Home";
 import ControlPointIcon from "@mui/icons-material/ControlPoint";
 import RemoveIcon from "@mui/icons-material/Remove";
 import { useHistory, useLocation } from "react-router";
+import { format } from "date-fns";
 
 const drawerWidth = 240;
 
-const useStyles = makeStyles({
-  page: {
-    backgroundColor: "#f9f9f9",
-    width: "100%",
-  },
-  drawer: {
-    width: drawerWidth,
-  },
-  drawerPaper: {
-    width: drawerWidth,
-  },
-  root: {
-    display: "flex",
-  },
-  active: {
-    backgroundColor: "#f4f4f4",
-  },
-  title: {
-    padding: "10px",
-  },
+const useStyles = makeStyles((theme) => {
+  return {
+    page: {
+      backgroundColor: "#f9f9f9",
+      width: "100%",
+      padding: theme.spacing(3),
+    },
+    drawer: {
+      width: drawerWidth,
+    },
+    drawerPaper: {
+      width: drawerWidth,
+    },
+    root: {
+      display: "flex",
+    },
+    active: {
+      backgroundColor: "#f4f4f4",
+    },
+    title: {
+      padding: theme.spacing(2),
+    },
+    appbar: {
+      width: `calc(100% - ${drawerWidth}px)`,
+    },
+    toolbar: theme.mixins.toolbar,
+    date: {
+      flexGrow: 1,
+    },
+    avatar: {
+      marginLeft: theme.spacing(2),
+    },
+  };
 });
 
 const Layout = (props) => {
@@ -66,6 +82,14 @@ const Layout = (props) => {
   ];
   return (
     <div className={classes.root}>
+      <AppBar elevation={0} className={classes.appbar}>
+        <Toolbar>
+          <Typography className={classes.date}>
+            Today is the {format(new Date(), "do MMMM Y")}
+          </Typography>
+          <Typography>Mario</Typography>
+        </Toolbar>
+      </AppBar>
       <Drawer
         classes={{ paper: classes.drawerPaper }}
         className={classes.drawer}
@@ -91,7 +115,10 @@ const Layout = (props) => {
           ))}
         </List>
       </Drawer>
-      <div className={classes.page}>{props.children}</div>
+      <div className={classes.page}>
+        <div className={classes.toolbar}></div>
+        {props.children}
+      </div>
     </div>
   );
 };
