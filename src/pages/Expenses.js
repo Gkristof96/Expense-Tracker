@@ -47,6 +47,11 @@ const useStyles = makeStyles({
   expense: { flexGrow: 5, marginRight: "10px" },
   category: { flexGrow: 3, marginRight: "10px" },
   date: { flexGrow: 1 },
+  paginate: {
+    marginTop: "25px",
+    display: "flex",
+    justifyContent: "center",
+  },
 });
 
 const Expenses = () => {
@@ -180,7 +185,9 @@ const Expenses = () => {
           <ExpensesCard key={item.id} expense={item} />
         ))}
       </div>
-      <Pagination count={10}></Pagination>
+      <div className={classes.paginate}>
+        <Pagination count={10}></Pagination>
+      </div>
     </Container>
   );
 };
