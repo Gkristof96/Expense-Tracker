@@ -7,7 +7,6 @@ import {
   FormControl,
   Select,
   MenuItem,
-  InputLabel,
 } from "@material-ui/core";
 
 import { useState } from "react";
@@ -16,6 +15,8 @@ import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import DatePicker from "@mui/lab/DatePicker";
 import ExpensesCard from "../components/ExpensesCard";
 import { Pagination } from "@mui/material";
+import { useDispatch, useSelector } from "react-redux";
+import { addExpense } from "../features/balance/balanceSlice";
 
 const useStyles = makeStyles({
   form: {
@@ -44,7 +45,8 @@ const useStyles = makeStyles({
   },
 
   addbtn: { flexGrow: 0, marginLeft: "20px" },
-  expense: { flexGrow: 5, marginRight: "10px" },
+  expense: { flexGrow: 2, marginRight: "10px" },
+  title: { flexGrow: 3, marginRight: "10px" },
   category: { flexGrow: 3, marginRight: "10px" },
   date: { flexGrow: 1 },
   paginate: {
@@ -57,16 +59,30 @@ const useStyles = makeStyles({
 const Expenses = () => {
   const classes = useStyles();
   const [value, setValue] = useState("");
+  const [title, setTitle] = useState("");
   const [category, setCategory] = useState("");
   const [date, setDate] = useState(null);
   const [sort, setSort] = useState("");
+  const dispatch = useDispatch();
+
+  const expenses = useSelector((state) => state.balance.expenses);
 
   const submitHandler = (event) => {
     event.preventDefault();
-    console.log("value:", value, "category: ", category, "Date: ", date);
+    if (value !== "" && category !== "" && date !== "" && title !== "") {
+      dispatch(
+        addExpense({
+          id: expenses.length,
+          title,
+          value,
+          category,
+          date,
+        })
+      );
+    }
   };
 
-  const expenses = [
+  const expensess = [
     {
       value: "3400",
       category: "Fun",
@@ -105,6 +121,13 @@ const Expenses = () => {
       >
         <TextField
           variant='outlined'
+          value={title}
+          onChange={(event) => setTitle(event.target.value)}
+          label='Title'
+          className={`${classes.field} ${classes.title}`}
+        />
+        <TextField
+          variant='outlined'
           value={value}
           onChange={(event) => setValue(event.target.value)}
           label='Value'
@@ -119,12 +142,12 @@ const Expenses = () => {
             displayEmpty
             inputProps={{ "aria-label": "Without label" }}
           >
-            <MenuItem value=''>
+            <MenuItem value='Groceries'>
               <em>Groceries</em>
             </MenuItem>
-            <MenuItem value={10}>Ten</MenuItem>
-            <MenuItem value={20}>Twenty</MenuItem>
-            <MenuItem value={30}>Thirty</MenuItem>
+            <MenuItem value='Fun'>Fun</MenuItem>
+            <MenuItem value='Bill'>Bill</MenuItem>
+            <MenuItem value='Tech'>Tech</MenuItem>
           </Select>
         </FormControl>
         <LocalizationProvider
