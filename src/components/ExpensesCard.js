@@ -7,7 +7,6 @@ import {
   makeStyles,
 } from "@material-ui/core";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { format } from "date-fns";
 import { useDispatch } from "react-redux";
 import { removeExpense } from "../features/balance/balanceSlice";
 
@@ -43,7 +42,7 @@ const ExpensesCard = (props) => {
           {props.expense.value} Ft
         </Typography>
         <Typography className={classes.date}>
-          {format(props.expense.date, "do MMMM Y")}
+          {`${props.expense.date.day} ${props.expense.date.year} ${props.expense.date.month}`}
         </Typography>
         <IconButton className={classes.btn}>
           <DeleteIcon onClick={removeExpenseHandler} />

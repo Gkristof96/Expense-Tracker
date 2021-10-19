@@ -7,15 +7,19 @@ import {
   Typography,
   Button,
 } from "@material-ui/core";
+import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
   incrementBalance,
   decrementBalance,
+  calculateCurrentMonthExpenses,
 } from "../features/balance/balanceSlice";
 
 const Home = () => {
   const dispatch = useDispatch();
-  const balance = useSelector((state) => state.balance.balance);
+  const { balance, currentMonthExpense } = useSelector(
+    (state) => state.balance
+  );
 
   const addMoneyHandler = () => {
     dispatch(incrementBalance(100));
@@ -23,6 +27,10 @@ const Home = () => {
   const removeMoneyHandler = () => {
     dispatch(decrementBalance(100));
   };
+
+  useEffect(() => {
+    dispatch(calculateCurrentMonthExpenses());
+  }, [dispatch]);
 
   return (
     <Box>
@@ -40,7 +48,7 @@ const Home = () => {
           <Grid item xs={4}>
             <Card>
               <CardHeader title='Current Expenses' />
-              <CardContent>3400Ft</CardContent>
+              <CardContent>{currentMonthExpense} Ft</CardContent>
             </Card>
           </Grid>
           <Grid item xs={4}>

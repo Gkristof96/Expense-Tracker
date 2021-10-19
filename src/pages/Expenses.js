@@ -65,7 +65,11 @@ const Expenses = () => {
   const [sort, setSort] = useState("");
   const dispatch = useDispatch();
 
+  const str = String(date).slice(0, 15).split(" ");
+
   const expenses = useSelector((state) => state.balance.expenses);
+
+  console.log(expenses[0]);
 
   const submitHandler = (event) => {
     event.preventDefault();
@@ -76,32 +80,16 @@ const Expenses = () => {
           title,
           value,
           category,
-          date,
+          date: {
+            weekDay: str[0],
+            month: str[1],
+            day: str[2],
+            year: str[3],
+          },
         })
       );
     }
   };
-
-  const expensess = [
-    {
-      value: "3400",
-      category: "Fun",
-      date: new Date(),
-      id: 1,
-    },
-    {
-      value: "400",
-      category: "Meal",
-      date: new Date(),
-      id: 2,
-    },
-    {
-      value: "1200",
-      category: "Bill",
-      date: new Date(),
-      id: 3,
-    },
-  ];
 
   return (
     <Container>
@@ -166,10 +154,10 @@ const Expenses = () => {
           />
         </LocalizationProvider>
         <Button
+          type='submit'
           color='primary'
           size='large'
           className={`${classes.field} ${classes.addbtn}`}
-          type='submit'
           variant='contained'
         >
           Add Expense
