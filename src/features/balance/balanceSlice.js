@@ -29,11 +29,30 @@ const balanceSlice = createSlice({
     },
     removeExpense: (state, action) => {
       const id = action.payload;
-      const existingExpense = state.expenses.find(
-        (expense) => expense.id === id
-      );
-      if (existingExpense) {
+      const { value } = state.expenses.find((expense) => expense.id === id);
+      console.log(value);
+      if (value) {
+        state.balance += +value;
         state.expenses = state.expenses.filter((expense) => expense.id !== id);
+      }
+    },
+    addIncome: (state, action) => {
+      const newIncome = action.payload;
+      state.incomes.push({
+        id: newIncome.id,
+        value: newIncome.value,
+        title: newIncome.title,
+        category: newIncome.category,
+        date: newIncome.date,
+      });
+    },
+    removeIncome: (state, action) => {
+      const id = action.payload;
+      const { value } = state.incomes.find((income) => income.id === id);
+      console.log(value);
+      if (value) {
+        state.balance -= +value;
+        state.incomes = state.incomes.filter((income) => income.id !== id);
       }
     },
   },
