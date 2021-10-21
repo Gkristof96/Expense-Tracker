@@ -63,9 +63,8 @@ const balanceSlice = createSlice({
       state.currentMonthExpense = state.expenses.reduce((total, item) => {
         if (date[1] === item.date.month) {
           return total + +item.value;
-        } else {
-          return total;
         }
+        return total;
       }, 0);
     },
   },
