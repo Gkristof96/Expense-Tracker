@@ -1,14 +1,14 @@
 import {
+  Avatar,
   Card,
   CardContent,
   Typography,
-  Avatar,
   IconButton,
   makeStyles,
 } from "@material-ui/core";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useDispatch } from "react-redux";
-import { removeExpense } from "../features/balance/balanceSlice";
+import { removeExpense } from "../../features/balance/balanceSlice";
 
 const useStyles = makeStyles({
   card: {
@@ -26,23 +26,21 @@ const useStyles = makeStyles({
   btn: { flexGrow: 0 },
 });
 
-const ExpensesCard = (props) => {
+const ListItem = ({ data }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
 
   const removeExpenseHandler = () => {
-    dispatch(removeExpense(props.expense.id));
+    dispatch(removeExpense(data.id));
   };
   return (
     <Card className={classes.card}>
       <CardContent className={classes.cardcontent}>
-        <Avatar className={classes.avatar}>{props.expense.category[0]}</Avatar>
-        <Typography className={classes.title}>{props.expense.title}</Typography>
-        <Typography className={classes.value}>
-          {props.expense.value} Ft
-        </Typography>
+        <Avatar className={classes.avatar}>{data.category[0]}</Avatar>
+        <Typography className={classes.value}>{data.value} Ft</Typography>
+        <Typography className={classes.title}>{data.title}</Typography>
         <Typography className={classes.date}>
-          {`${props.expense.date.day} ${props.expense.date.year} ${props.expense.date.month}`}
+          {`${data.date.day} ${data.date.year} ${data.date.month}`}
         </Typography>
         <IconButton className={classes.btn}>
           <DeleteIcon onClick={removeExpenseHandler} />
@@ -52,4 +50,4 @@ const ExpensesCard = (props) => {
   );
 };
 
-export default ExpensesCard;
+export default ListItem;

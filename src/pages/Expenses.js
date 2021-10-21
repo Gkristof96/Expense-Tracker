@@ -1,31 +1,33 @@
-import { Container, Typography, makeStyles } from "@material-ui/core";
+import { Container, Typography } from "@material-ui/core";
 import List from "../components/List/List";
 
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { addExpense } from "../features/balance/balanceSlice";
 import NewItemForm from "../components/NewItemForm";
 
 const Expenses = () => {
+  const dispatch = useDispatch();
   const expenses = useSelector((state) => state.balance.expenses);
 
-  /*const submitHandler = (event) => {
-    event.preventDefault();
-    if (value !== "" && category !== "" && date !== "" && title !== "") {
-      dispatch(
-        addExpense({
-          id: expenses.length,
-          title,
-          value,
-          category,
-          date: {
-            weekDay: str[0],
-            month: str[1],
-            day: str[2],
-            year: str[3],
-          },
-        })
-      );
-    }
-  };*/
+  const addNewExpense = (expenseData) => {
+    const str = String(expenseData.date).slice(0, 15).split(" ");
+    const expensesLength = expenses.length;
+    console.log(expensesLength);
+    dispatch(
+      addExpense({
+        id: expensesLength > 0 ? expenses[expensesLength - 1].id + 1 : 0,
+        title: expenseData.title,
+        value: expenseData.value,
+        category: expenseData.category,
+        date: {
+          weekDay: str[0],
+          month: str[1],
+          day: str[2],
+          year: str[3],
+        },
+      })
+    );
+  };
 
   return (
     <Container>
@@ -37,7 +39,7 @@ const Expenses = () => {
       >
         Add Expenses
       </Typography>
-      <NewItemForm />
+      <NewItemForm onSubmit={addNewExpense} />
       <List title='Previous Expenses' data={expenses} />
     </Container>
   );

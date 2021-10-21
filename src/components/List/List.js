@@ -1,7 +1,7 @@
 import { FormControl, MenuItem, Select, Typography } from "@material-ui/core";
 import { Box } from "@mui/system";
 import { Fragment, useState } from "react";
-import ExpensesCard from "../ExpensesCard";
+import ListItem from "./ListItem";
 
 const List = ({ title, data }) => {
   const [sortType, setSortType] = useState("");
@@ -46,7 +46,7 @@ const List = ({ title, data }) => {
       </Box>
       <Box>
         {data.map((item) => (
-          <ExpensesCard key={item.id} expense={item} />
+          <ListItem key={item.id} data={item} />
         ))}
       </Box>
     </Fragment>

@@ -35,10 +35,17 @@ const NewItemForm = (props) => {
   const [category, setCategory] = useState("");
   const [date, setDate] = useState(null);
 
+  const submitHandler = (event) => {
+    event.preventDefault();
+    if (value !== "" && category !== "" && date !== "" && title !== "") {
+      props.onSubmit({ value, title, category, date });
+    }
+  };
+
   return (
     <form
       className={classes.form}
-      onSubmit={props.submitHandler}
+      onSubmit={submitHandler}
       noValidate
       autoComplete='off'
     >
