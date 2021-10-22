@@ -1,6 +1,13 @@
+import Avatar from "@mui/material/Avatar";
+import AnalyticsIcon from "@mui/icons-material/Analytics";
+import HomeIcon from "@mui/icons-material/Home";
+import ControlPointIcon from "@mui/icons-material/ControlPoint";
+import RemoveIcon from "@mui/icons-material/Remove";
+import { useHistory, useLocation } from "react-router";
+import { format } from "date-fns";
+import { Box } from "@mui/system";
 import {
   AppBar,
-  makeStyles,
   Drawer,
   List,
   ListItem,
@@ -8,13 +15,8 @@ import {
   ListItemText,
   Toolbar,
   Typography,
-} from "@material-ui/core";
-import AnalyticsIcon from "@mui/icons-material/Analytics";
-import HomeIcon from "@mui/icons-material/Home";
-import ControlPointIcon from "@mui/icons-material/ControlPoint";
-import RemoveIcon from "@mui/icons-material/Remove";
-import { useHistory, useLocation } from "react-router";
-import { format } from "date-fns";
+} from "@mui/material";
+import { makeStyles } from "@mui/styles";
 
 const drawerWidth = 240;
 
@@ -23,7 +25,7 @@ const useStyles = makeStyles((theme) => {
     page: {
       backgroundColor: "#f9f9f9",
       width: "100%",
-      padding: theme.spacing(3),
+      padding: "10px",
     },
     drawer: {
       width: drawerWidth,
@@ -38,17 +40,17 @@ const useStyles = makeStyles((theme) => {
       backgroundColor: "#f4f4f4",
     },
     title: {
-      padding: theme.spacing(2),
+      padding: "10px",
     },
     appbar: {
       width: `calc(100% - ${drawerWidth}px)`,
     },
-    toolbar: theme.mixins.toolbar,
+    toolbar: { height: "80px" },
     date: {
       flexGrow: 1,
     },
     avatar: {
-      marginLeft: theme.spacing(2),
+      marginLeft: "10px",
     },
   };
 });
@@ -81,24 +83,36 @@ const Layout = (props) => {
     },
   ];
   return (
-    <div className={classes.root}>
-      <AppBar elevation={0} className={classes.appbar}>
-        <Toolbar>
-          <Typography className={classes.date}>
-            Today is the {format(new Date(), "do MMMM Y")}
-          </Typography>
-          <Typography>Mario</Typography>
-        </Toolbar>
-      </AppBar>
+    <Box sx={{ display: "flex" }}>
       <Drawer
         classes={{ paper: classes.drawerPaper }}
         className={classes.drawer}
         variant='permanent'
         anchor='left'
       >
-        <div>
-          <Typography className={classes.title}>Expense Tracker</Typography>
-        </div>
+        <Box
+          sx={{
+            width: drawerWidth,
+            height: drawerWidth,
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            flexDirection: "column",
+          }}
+        >
+          <Avatar
+            alt='Remy Sharp'
+            src='trainer_2.jpg'
+            sx={{
+              width: 70,
+              height: 70,
+              mb: 1,
+            }}
+          />
+          <Typography variant='h5' component='h2'>
+            Salma Hayek
+          </Typography>
+        </Box>
         <List>
           {menuItems.map((item) => (
             <ListItem
@@ -115,11 +129,19 @@ const Layout = (props) => {
           ))}
         </List>
       </Drawer>
+      <AppBar elevation={0} className={classes.appbar}>
+        <Toolbar>
+          <Typography className={classes.date}>
+            Today is the {format(new Date(), "do MMMM Y")}
+          </Typography>
+          <Typography>Mario</Typography>
+        </Toolbar>
+      </AppBar>
       <div className={classes.page}>
         <div className={classes.toolbar}></div>
         {props.children}
       </div>
-    </div>
+    </Box>
   );
 };
 

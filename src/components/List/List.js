@@ -1,4 +1,4 @@
-import { FormControl, MenuItem, Select, Typography } from "@material-ui/core";
+import { FormControl, Select, Typography, MenuItem } from "@mui/material";
 import { Box } from "@mui/system";
 import { Fragment, useState } from "react";
 import ListItem from "./ListItem";

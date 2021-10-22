@@ -1,9 +1,9 @@
-import { Container, Typography } from "@material-ui/core";
 import List from "../components/List/List";
 
 import { useDispatch, useSelector } from "react-redux";
 import { addExpense } from "../features/balance/balanceSlice";
 import NewItemForm from "../components/NewItemForm";
+import { Container, Typography } from "@mui/material";
 
 const Expenses = () => {
   const dispatch = useDispatch();

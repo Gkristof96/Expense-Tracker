@@ -1,4 +1,4 @@
-import { Container, Typography } from "@material-ui/core";
+import { Container, Typography } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { addIncome } from "../features/balance/balanceSlice";
 import List from "../components/List/List";

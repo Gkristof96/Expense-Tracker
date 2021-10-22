@@ -1,14 +1,14 @@
+import DeleteIcon from "@mui/icons-material/Delete";
 import {
   Avatar,
   Card,
   CardContent,
-  Typography,
   IconButton,
-  makeStyles,
-} from "@material-ui/core";
-import DeleteIcon from "@mui/icons-material/Delete";
+  Typography,
+} from "@mui/material";
 import { useDispatch } from "react-redux";
 import { removeExpense } from "../../features/balance/balanceSlice";
+import { makeStyles } from "@mui/styles";
 
 const useStyles = makeStyles({
   card: {
