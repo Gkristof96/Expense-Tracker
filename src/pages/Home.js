@@ -33,7 +33,7 @@ const Home = () => {
   }, [dispatch]);
 
   return (
-    <Box>
+    <Box sx={{ p: "25px 50px" }}>
       <Grid container spacing={1}>
         <Grid container item xs={6} spacing={1}>
           <Grid item xs={4}>

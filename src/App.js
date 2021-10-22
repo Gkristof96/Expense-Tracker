@@ -7,26 +7,42 @@ import Home from "./pages/Home";
 import Expenses from "./pages/Expenses";
 import Analytics from "./pages/Analytics";
 
+import { createTheme, ThemeProvider } from "@mui/material";
+
+const theme = createTheme({
+  palette: {
+    secondary: {
+      main: "#357a38",
+    },
+  },
+  typography: {
+    fontFamily: "Oswald",
+    fontWeightLight: 400,
+  },
+});
+
 function App() {
   return (
-    <Router>
-      <Layout>
-        <Switch>
-          <Route exact path='/'>
-            <Home />
-          </Route>
-          <Router path='/expenses'>
-            <Expenses />
-          </Router>
-          <Router path='/incomes'>
-            <Incomes />
-          </Router>
-          <Router path='/analytics'>
-            <Analytics />
-          </Router>
-        </Switch>
-      </Layout>
-    </Router>
+    <ThemeProvider theme={theme}>
+      <Router>
+        <Layout>
+          <Switch>
+            <Route exact path='/'>
+              <Home />
+            </Route>
+            <Router path='/expenses'>
+              <Expenses />
+            </Router>
+            <Router path='/incomes'>
+              <Incomes />
+            </Router>
+            <Router path='/analytics'>
+              <Analytics />
+            </Router>
+          </Switch>
+        </Layout>
+      </Router>
+    </ThemeProvider>
   );
 }
 

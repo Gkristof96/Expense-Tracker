@@ -1,64 +1,69 @@
-import Avatar from "@mui/material/Avatar";
+import { useState } from "react";
 import AnalyticsIcon from "@mui/icons-material/Analytics";
 import HomeIcon from "@mui/icons-material/Home";
 import ControlPointIcon from "@mui/icons-material/ControlPoint";
 import RemoveIcon from "@mui/icons-material/Remove";
 import { useHistory, useLocation } from "react-router";
+import CloseIcon from "@mui/icons-material/Close";
+import { styled, useTheme } from "@mui/material/styles";
+import Box from "@mui/material/Box";
+import Drawer from "@mui/material/Drawer";
+import CssBaseline from "@mui/material/CssBaseline";
+import MuiAppBar from "@mui/material/AppBar";
+import Toolbar from "@mui/material/Toolbar";
+import List from "@mui/material/List";
+import Typography from "@mui/material/Typography";
+import Divider from "@mui/material/Divider";
+import IconButton from "@mui/material/IconButton";
+import MenuIcon from "@mui/icons-material/Menu";
+import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
+import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import ListItem from "@mui/material/ListItem";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import ListItemText from "@mui/material/ListItemText";
+import InboxIcon from "@mui/icons-material/MoveToInbox";
+import MailIcon from "@mui/icons-material/Mail";
+import { IcecreamSharp } from "@mui/icons-material";
 import { format } from "date-fns";
-import { Box } from "@mui/system";
-import {
-  AppBar,
-  Drawer,
-  List,
-  ListItem,
-  ListItemIcon,
-  ListItemText,
-  Toolbar,
-  Typography,
-} from "@mui/material";
-import { makeStyles } from "@mui/styles";
+import { Avatar } from "@mui/material";
 
 const drawerWidth = 240;
 
-const useStyles = makeStyles((theme) => {
-  return {
-    page: {
-      backgroundColor: "#f9f9f9",
-      width: "100%",
-      padding: "10px",
-    },
-    drawer: {
-      width: drawerWidth,
-    },
-    drawerPaper: {
-      width: drawerWidth,
-    },
-    root: {
-      display: "flex",
-    },
-    active: {
-      backgroundColor: "#f4f4f4",
-    },
-    title: {
-      padding: "10px",
-    },
-    appbar: {
-      width: `calc(100% - ${drawerWidth}px)`,
-    },
-    toolbar: { height: "80px" },
-    date: {
-      flexGrow: 1,
-    },
-    avatar: {
-      marginLeft: "10px",
-    },
-  };
-});
+const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })(
+  ({ theme, open }) => ({
+    flexGrow: 1,
+    transition: theme.transitions.create("margin", {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen,
+    }),
+    marginLeft: `-${drawerWidth}px`,
+    ...(open && {
+      transition: theme.transitions.create("margin", {
+        easing: theme.transitions.easing.easeOut,
+        duration: theme.transitions.duration.enteringScreen,
+      }),
+      marginLeft: 0,
+    }),
+  })
+);
+
+const DrawerHeader = styled("div")(({ theme }) => ({
+  display: "flex",
+  alignItems: "center",
+  padding: theme.spacing(0, 1),
+  // necessary for content to be below app bar
+  ...theme.mixins.toolbar,
+  justifyContent: "flex-end",
+}));
 
 const Layout = (props) => {
+  const theme = useTheme();
   const history = useHistory();
   const location = useLocation();
-  const classes = useStyles();
+
+  const [drawerOpen, setDrawerOpen] = useState(false);
+
+  const toggleDrawerHandler = () => setDrawerOpen((prevState) => !prevState);
 
   const menuItems = [
     {
@@ -84,15 +89,25 @@ const Layout = (props) => {
   ];
   return (
     <Box sx={{ display: "flex" }}>
+      <CssBaseline />
       <Drawer
-        classes={{ paper: classes.drawerPaper }}
-        className={classes.drawer}
-        variant='permanent'
+        sx={{
+          width: drawerWidth,
+          flexShrink: 0,
+          "& .MuiDrawer-paper": { width: drawerWidth, boySizing: "border-box" },
+        }}
+        variant='persistent'
         anchor='left'
+        open={drawerOpen}
       >
+        <DrawerHeader>
+          <IconButton onClick={toggleDrawerHandler}>
+            <CloseIcon />
+          </IconButton>
+        </DrawerHeader>
+        <Divider />
         <Box
           sx={{
-            width: drawerWidth,
             height: drawerWidth,
             display: "flex",
             justifyContent: "center",
@@ -101,17 +116,10 @@ const Layout = (props) => {
           }}
         >
           <Avatar
-            alt='Remy Sharp'
             src='trainer_2.jpg'
-            sx={{
-              width: 70,
-              height: 70,
-              mb: 1,
-            }}
+            sx={{ width: 100, height: 100, mb: "25px" }}
           />
-          <Typography variant='h5' component='h2'>
-            Salma Hayek
-          </Typography>
+          <Typography>Samantha</Typography>
         </Box>
         <List>
           {menuItems.map((item) => (
@@ -119,9 +127,6 @@ const Layout = (props) => {
               key={item.text}
               button
               onClick={() => history.push(item.path)}
-              className={
-                location.pathname === item.path ? classes.active : null
-              }
             >
               <ListItemIcon>{item.icon}</ListItemIcon>
               <ListItemText primary={item.text} />
@@ -129,18 +134,36 @@ const Layout = (props) => {
           ))}
         </List>
       </Drawer>
-      <AppBar elevation={0} className={classes.appbar}>
-        <Toolbar>
-          <Typography className={classes.date}>
+      <Main open={drawerOpen}>
+        <Box
+          sx={{
+            height: "65px",
+            display: "flex",
+            alignItems: "center",
+            p: "25px",
+            mb: "25px",
+            backgroundColor: "#3f51b5",
+            color: "#f4f4f4",
+          }}
+        >
+          <IconButton
+            color='inherit'
+            aria-label='open drawer'
+            onClick={toggleDrawerHandler}
+            edge='start'
+            sx={{ mr: 2, ...(drawerOpen && { display: "none" }) }}
+          >
+            <MenuIcon />
+          </IconButton>
+          <Typography variant='h1' sx={{ flexGrow: 1, fontSize: "28px" }}>
+            Expense Tracker
+          </Typography>
+          <Typography>
             Today is the {format(new Date(), "do MMMM Y")}
           </Typography>
-          <Typography>Mario</Typography>
-        </Toolbar>
-      </AppBar>
-      <div className={classes.page}>
-        <div className={classes.toolbar}></div>
+        </Box>
         {props.children}
-      </div>
+      </Main>
     </Box>
   );
 };
