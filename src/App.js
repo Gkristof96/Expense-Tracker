@@ -1,9 +1,15 @@
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Redirect,
+} from "react-router-dom";
 import { useSelector } from "react-redux";
-import Layout from "./components/Layout";
+import Layout from "./components/Layout/Layout";
 
 import Incomes from "./pages/Incomes";
 import Home from "./pages/Home";
+import Dashboard from "./pages/Dashboard";
 import Expenses from "./pages/Expenses";
 import Analytics from "./pages/Analytics";
 import Authentication from "./pages/Authentication";
@@ -29,17 +35,17 @@ function App() {
         <Layout>
           <Switch>
             <Route exact path='/'>
-              {isLoggedIn ? <Home /> : <Authentication />}
+              {isLoggedIn ? <Dashboard /> : <Home />}
             </Route>
-            <Router path='/expenses'>
-              <Expenses />
-            </Router>
-            <Router path='/incomes'>
-              <Incomes />
-            </Router>
-            <Router path='/analytics'>
-              <Analytics />
-            </Router>
+            <Route path='/expenses'>
+              {isLoggedIn ? <Expenses /> : <Redirect to='/' />}
+            </Route>
+            <Route path='/incomes'>
+              {isLoggedIn ? <Incomes /> : <Redirect to='/' />}
+            </Route>
+            <Route path='/auth'>
+              {!isLoggedIn ? <Authentication /> : <Redirect to='/' />}
+            </Route>
           </Switch>
         </Layout>
       </Router>
