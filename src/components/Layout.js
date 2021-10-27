@@ -3,29 +3,25 @@ import AnalyticsIcon from "@mui/icons-material/Analytics";
 import HomeIcon from "@mui/icons-material/Home";
 import ControlPointIcon from "@mui/icons-material/ControlPoint";
 import RemoveIcon from "@mui/icons-material/Remove";
-import { useHistory, useLocation } from "react-router";
+import { useHistory } from "react-router";
 import CloseIcon from "@mui/icons-material/Close";
-import { styled, useTheme } from "@mui/material/styles";
+import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
 import CssBaseline from "@mui/material/CssBaseline";
-import MuiAppBar from "@mui/material/AppBar";
-import Toolbar from "@mui/material/Toolbar";
 import List from "@mui/material/List";
 import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
-import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
-import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import ListItem from "@mui/material/ListItem";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
-import MailIcon from "@mui/icons-material/Mail";
-import { IcecreamSharp } from "@mui/icons-material";
 import { format } from "date-fns";
+import Button from "@mui/material/Button";
 import { Avatar } from "@mui/material";
+import { logout } from "../features/user/userSlice";
+import { useDispatch, useSelector } from "react-redux";
 
 const drawerWidth = 240;
 
@@ -57,13 +53,18 @@ const DrawerHeader = styled("div")(({ theme }) => ({
 }));
 
 const Layout = (props) => {
-  const theme = useTheme();
   const history = useHistory();
-  const location = useLocation();
+  const dispatch = useDispatch();
+  const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
 
   const [drawerOpen, setDrawerOpen] = useState(false);
 
   const toggleDrawerHandler = () => setDrawerOpen((prevState) => !prevState);
+
+  const logoutHandler = () => {
+    setDrawerOpen(false);
+    dispatch(logout());
+  };
 
   const menuItems = [
     {
@@ -94,7 +95,10 @@ const Layout = (props) => {
         sx={{
           width: drawerWidth,
           flexShrink: 0,
-          "& .MuiDrawer-paper": { width: drawerWidth, boySizing: "border-box" },
+          "& .MuiDrawer-paper": {
+            width: drawerWidth,
+            boySizing: "border-box",
+          },
         }}
         variant='persistent'
         anchor='left'
@@ -133,35 +137,38 @@ const Layout = (props) => {
             </ListItem>
           ))}
         </List>
+        <Button onClick={logoutHandler}>Logout</Button>
       </Drawer>
       <Main open={drawerOpen}>
-        <Box
-          sx={{
-            height: "65px",
-            display: "flex",
-            alignItems: "center",
-            p: "25px",
-            mb: "25px",
-            backgroundColor: "#3f51b5",
-            color: "#f4f4f4",
-          }}
-        >
-          <IconButton
-            color='inherit'
-            aria-label='open drawer'
-            onClick={toggleDrawerHandler}
-            edge='start'
-            sx={{ mr: 2, ...(drawerOpen && { display: "none" }) }}
+        {isLoggedIn && (
+          <Box
+            sx={{
+              height: "65px",
+              display: "flex",
+              alignItems: "center",
+              p: "25px",
+              mb: "25px",
+              backgroundColor: "#3f51b5",
+              color: "#f4f4f4",
+            }}
           >
-            <MenuIcon />
-          </IconButton>
-          <Typography variant='h1' sx={{ flexGrow: 1, fontSize: "28px" }}>
-            Expense Tracker
-          </Typography>
-          <Typography>
-            Today is the {format(new Date(), "do MMMM Y")}
-          </Typography>
-        </Box>
+            <IconButton
+              color='inherit'
+              aria-label='open drawer'
+              onClick={toggleDrawerHandler}
+              edge='start'
+              sx={{ mr: 2, ...(drawerOpen && { display: "none" }) }}
+            >
+              <MenuIcon />
+            </IconButton>
+            <Typography variant='h1' sx={{ flexGrow: 1, fontSize: "28px" }}>
+              Expense Tracker
+            </Typography>
+            <Typography>
+              Today is the {format(new Date(), "do MMMM Y")}
+            </Typography>
+          </Box>
+        )}
         {props.children}
       </Main>
     </Box>
