@@ -11,7 +11,6 @@ import Incomes from "./pages/Incomes";
 import Home from "./pages/Home";
 import Dashboard from "./pages/Dashboard";
 import Expenses from "./pages/Expenses";
-import Analytics from "./pages/Analytics";
 import Authentication from "./pages/Authentication";
 import { createTheme, ThemeProvider } from "@mui/material";
 

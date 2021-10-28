@@ -9,11 +9,13 @@ const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
-    login: (state, action) => {
-      state.isLoggedIn = true;
-    },
     logout: (state) => {
+      state.token = "";
       state.isLoggedIn = false;
+    },
+    login: (state, action) => {
+      state.token = action.payload;
+      state.isLoggedIn = !!state.token;
     },
   },
 });

@@ -5,20 +5,61 @@ import {
   TextField,
   Button,
   Grid,
-  Link,
   Avatar,
-  Checkbox,
-  FormControlLabel,
 } from "@mui/material";
+import LoadingButton from "@mui/lab/LoadingButton";
 import { Box } from "@mui/system";
-import React from "react";
+import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { login } from "../features/user/userSlice";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 
 const LoginForm = (props) => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const dispatch = useDispatch();
+
   const submitHandler = (event) => {
     event.preventDefault();
+
+    setLoading(true);
+    fetch(
+      "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyBnjGWzwk83ya_WUbJIUiMBFiv67ejdRt0",
+      {
+        method: "POST",
+        body: JSON.stringify({
+          email,
+          password,
+          returnSecureToken: true,
+        }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    )
+      .then((res) => {
+        setLoading(false);
+        if (res.ok) {
+          return res.json();
+        } else {
+          return res.json().then((data) => {
+            let errorMessage = "Authentication failed!";
+            // if (data && data.error && data.error.message) {
+            //   errorMessage = data.error.message;
+            // }
+
+            throw new Error(errorMessage);
+          });
+        }
+      })
+      .then((data) => {
+        dispatch(login(data.idToken));
+      })
+      .catch((err) => {
+        alert(err.message);
+      });
   };
 
   return (
@@ -45,43 +86,31 @@ const LoginForm = (props) => {
           sx={{ mt: 1 }}
         >
           <TextField
-            margin='normal'
+            value={email}
+            onChange={(event) => setEmail(event.target.value)}
             required
             fullWidth
-            id='email'
             label='Email Address'
-            name='email'
-            autoComplete='email'
-            autoFocus
           />
           <TextField
-            margin='normal'
+            value={password}
+            onChange={(event) => setPassword(event.target.value)}
             required
             fullWidth
             name='password'
             label='Password'
             type='password'
-            id='password'
-            autoComplete='current-password'
           />
-          <FormControlLabel
-            control={<Checkbox value='remember' color='primary' />}
-            label='Remember me'
-          />
-          <Button
+          <LoadingButton
+            loading={loading}
             type='submit'
             fullWidth
             variant='contained'
             sx={{ mt: 3, mb: 2 }}
           >
             Sign In
-          </Button>
+          </LoadingButton>
           <Grid container>
-            <Grid item xs>
-              <Link href='#' variant='body2'>
-                Forgot password?
-              </Link>
-            </Grid>
             <Grid item>
               <Button onClick={props.onToggleAuthMode}>
                 {"Don't have an account? Sign Up"}
