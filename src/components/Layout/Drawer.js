@@ -17,6 +17,8 @@ import Drawer from "@mui/material/Drawer";
 import { Avatar } from "@mui/material";
 import { logout } from "../../features/user/userSlice";
 import { useDispatch } from "react-redux";
+import LogoutIcon from "@mui/icons-material/Logout";
+import SettingsIcon from "@mui/icons-material/Settings";
 
 const drawerWidth = 240;
 
@@ -89,19 +91,47 @@ const SideDrawer = (props) => {
         />
         <Typography>Samantha</Typography>
       </Box>
-      <List>
-        {menuItems.map((item) => (
-          <ListItem
-            key={item.text}
-            button
-            onClick={() => history.push(item.path)}
+      <Box
+        sx={{
+          height: "100%",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "space-between",
+        }}
+      >
+        <List>
+          {menuItems.map((item) => (
+            <ListItem
+              key={item.text}
+              button
+              onClick={() => history.push(item.path)}
+            >
+              <ListItemIcon>{item.icon}</ListItemIcon>
+              <ListItemText primary={item.text} />
+            </ListItem>
+          ))}
+        </List>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            mb: "25px",
+          }}
+        >
+          <Button endIcon={<SettingsIcon />} sx={{ m: "5px" }}>
+            Setting
+          </Button>
+          <Button
+            endIcon={<LogoutIcon />}
+            variant='contained'
+            elevation={0}
+            sx={{ m: "10px", mb: "0" }}
+            onClick={logoutHandler}
           >
-            <ListItemIcon>{item.icon}</ListItemIcon>
-            <ListItemText primary={item.text} />
-          </ListItem>
-        ))}
-      </List>
-      <Button onClick={logoutHandler}>Logout</Button>
+            Logout
+          </Button>
+        </Box>
+      </Box>
     </Drawer>
   );
 };
