@@ -1,18 +1,7 @@
-import {
-  Button,
-  Card,
-  CardHeader,
-  CardContent,
-  Grid,
-  Typography,
-} from "@mui/material";
+import { Card, CardHeader, CardContent, Grid } from "@mui/material";
 import { Fragment, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import {
-  incrementBalance,
-  decrementBalance,
-  calculateCurrentMonthExpenses,
-} from "../features/balance/balanceSlice";
+import { calculateCurrentMonthExpenses } from "../features/balance/balanceSlice";
 import ListItem from "../components/List/ListItem";
 
 import { Pie, Bar } from "react-chartjs-2";
@@ -97,15 +86,6 @@ const Dashboard = () => {
                 width={600}
                 options={{
                   maintainAspectRatio: false,
-                  scales: {
-                    yAxes: [
-                      {
-                        ticks: {
-                          beginAtZero: true,
-                        },
-                      },
-                    ],
-                  },
                   legend: {
                     labels: {
                       fontSize: 25,
@@ -163,15 +143,6 @@ const Dashboard = () => {
                 width={600}
                 options={{
                   maintainAspectRatio: false,
-                  scales: {
-                    yAxes: [
-                      {
-                        ticks: {
-                          beginAtZero: true,
-                        },
-                      },
-                    ],
-                  },
                   legend: {
                     labels: {
                       fontSize: 25,

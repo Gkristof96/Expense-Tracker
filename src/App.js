@@ -13,6 +13,10 @@ import Dashboard from "./pages/Dashboard";
 import Expenses from "./pages/Expenses";
 import Authentication from "./pages/Authentication";
 import { createTheme, ThemeProvider } from "@mui/material";
+import { useDispatch } from "react-redux";
+import { onAuthStateChanged } from "@firebase/auth";
+import { auth } from "./firebase";
+import { login } from "./features/user/userSlice";
 
 const theme = createTheme({
   palette: {
@@ -28,6 +32,13 @@ const theme = createTheme({
 
 function App() {
   const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
+  const dispatch = useDispatch();
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      dispatch(login(user.accessToken));
+    }
+  });
+
   return (
     <ThemeProvider theme={theme}>
       <Router>

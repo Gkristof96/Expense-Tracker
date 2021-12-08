@@ -13,6 +13,8 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { login } from "../features/user/userSlice";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import { signInWithEmailAndPassword } from "@firebase/auth";
+import { auth } from "../firebase";
 
 const LoginForm = (props) => {
   const [email, setEmail] = useState("");
@@ -25,6 +27,14 @@ const LoginForm = (props) => {
     event.preventDefault();
 
     setLoading(true);
+    signInWithEmailAndPassword(auth, email, password)
+      .then((cred) => {
+        setLoading(false);
+        dispatch(login(cred._tokenResponse.idToken));
+      })
+      .catch((err) => {
+        console.log(err.message);
+      });
   };
 
   return (

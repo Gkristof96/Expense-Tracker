@@ -20,6 +20,9 @@ import { useDispatch } from "react-redux";
 import LogoutIcon from "@mui/icons-material/Logout";
 import SettingsIcon from "@mui/icons-material/Settings";
 
+import { signOut } from "firebase/auth";
+import { auth } from "../../firebase";
+
 const drawerWidth = 240;
 
 const DrawerHeader = styled("div")(({ theme }) => ({
@@ -36,7 +39,13 @@ const SideDrawer = (props) => {
   const dispatch = useDispatch();
 
   const logoutHandler = () => {
-    dispatch(logout());
+    signOut(auth)
+      .then(() => {
+        dispatch(logout());
+      })
+      .catch((err) => {
+        console.log(err.message);
+      });
   };
 
   const menuItems = [
@@ -86,10 +95,10 @@ const SideDrawer = (props) => {
         }}
       >
         <Avatar
-          src='trainer_2.jpg'
+          src={auth.currentUser.photoURL}
           sx={{ width: 100, height: 100, mb: "25px" }}
         />
-        <Typography>Samantha</Typography>
+        <Typography>{auth.currentUser.displayName}</Typography>
       </Box>
       <Box
         sx={{
