@@ -25,41 +25,6 @@ const LoginForm = (props) => {
     event.preventDefault();
 
     setLoading(true);
-    fetch(
-      "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyBnjGWzwk83ya_WUbJIUiMBFiv67ejdRt0",
-      {
-        method: "POST",
-        body: JSON.stringify({
-          email,
-          password,
-          returnSecureToken: true,
-        }),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    )
-      .then((res) => {
-        setLoading(false);
-        if (res.ok) {
-          return res.json();
-        } else {
-          return res.json().then((data) => {
-            let errorMessage = "Authentication failed!";
-            // if (data && data.error && data.error.message) {
-            //   errorMessage = data.error.message;
-            // }
-
-            throw new Error(errorMessage);
-          });
-        }
-      })
-      .then((data) => {
-        dispatch(login(data.idToken));
-      })
-      .catch((err) => {
-        alert(err.message);
-      });
   };
 
   return (

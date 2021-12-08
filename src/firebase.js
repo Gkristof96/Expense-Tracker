@@ -1,17 +1,15 @@
-import firebase from "firebase";
 import { initializeApp } from "firebase/app";
+import { getAuth } from "firebase/auth";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyBnjGWzwk83ya_WUbJIUiMBFiv67ejdRt0",
-  authDomain: "expense-app-8f5c1.firebaseapp.com",
-  databaseURL: "https://expense-app-8f5c1-default-rtdb.firebaseio.com",
-  projectId: "expense-app-8f5c1",
-  storageBucket: "expense-app-8f5c1.appspot.com",
-  messagingSenderId: "169596397213",
-  appId: "1:169596397213:web:0f06d9fe08ad85930a5674",
-  measurementId: "G-XESCYGRLRX",
+  apiKey: "AIzaSyCprgW58feHp0-SRWhdJ-i67Ik-wys9B3o",
+  authDomain: "expense-tracker-a6a87.firebaseapp.com",
+  projectId: "expense-tracker-a6a87",
+  storageBucket: "expense-tracker-a6a87.appspot.com",
+  messagingSenderId: "1045194789984",
+  appId: "1:1045194789984:web:0008bf86161b2082365f05",
 };
 
-const app = initializeApp(firebaseConfig);
+initializeApp(firebaseConfig);
 
-const auth = firebase.auth();
+export const auth = getAuth();
