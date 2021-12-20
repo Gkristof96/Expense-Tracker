@@ -78,6 +78,7 @@ const Layout = (props) => {
               </Typography>
             </Box>
           )}
+          <h1>Fasz</h1>
           {props.children}
         </Main>
       </Box>

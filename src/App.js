@@ -39,6 +39,8 @@ function App() {
     }
   });
 
+  console.log(isLoggedIn);
+
   return (
     <ThemeProvider theme={theme}>
       <Router>

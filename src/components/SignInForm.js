@@ -26,6 +26,7 @@ const SignInForm = (props) => {
   const submitHandler = (event) => {
     event.preventDefault();
     setLoading(true);
+<<<<<<< HEAD
     createUserWithEmailAndPassword(auth, email, password)
       .then((cred) => {
         setLoading(false);
@@ -35,6 +36,28 @@ const SignInForm = (props) => {
             "https://firebasestorage.googleapis.com/v0/b/expense-tracker-a6a87.appspot.com/o/360_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg?alt=media&token=57b9c49c-b7e4-484f-b098-5e129edda3da",
         }).then(() => {
           console.log(auth);
+=======
+    fetch(
+      "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=",
+      {
+        method: "POST",
+        body: JSON.stringify({
+          email,
+          password,
+          returnSecureToken: true,
+        }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    ).then((res) => {
+      if (res.ok) {
+        // ...
+      } else {
+        return res.json().then((data) => {
+          // show an error modal
+          console.log(data);
+>>>>>>> b5ae801a3e0c7ee1542cc18d822e472cefeae706
         });
         dispatch(login(cred._tokenResponse.idToken));
       })
