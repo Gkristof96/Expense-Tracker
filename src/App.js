@@ -1,8 +1,5 @@
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { Router } from "./routes";
 import { createTheme, ThemeProvider } from "@mui/material";
-
-// Components
-import Layout from "./components/Layout/Layout";
 
 const theme = createTheme({
   palette: {
@@ -19,9 +16,7 @@ const theme = createTheme({
 function App() {
   return (
     <ThemeProvider theme={theme}>
-      <BrowserRouter>
-        <Layout></Layout>
-      </BrowserRouter>
+      <Router />
     </ThemeProvider>
   );
 }
