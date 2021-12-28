@@ -1,7 +1,8 @@
 import { Navigate, useRoutes } from "react-router-dom";
+import { useSelector } from "react-redux";
 
-import DashboardLayout from "./layouts/DashboardLayout";
-import LandingLayout from "./layouts/LandingLayout";
+import DashboardLayout from "./layouts/dashboard";
+import LandingLayout from "./layouts/landing";
 
 import LoginPage from "./pages/Login";
 import RegisterPage from "./pages/Register";
@@ -14,10 +15,12 @@ import AnalyticsPage from "./pages/Analytics";
 import GoalsPage from "./pages/Goals";
 
 export const Router = () => {
+  const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
+  console.log(isLoggedIn);
   return useRoutes([
     {
       path: "/dashboard",
-      element: <DashboardLayout />,
+      element: isLoggedIn ? <DashboardLayout /> : <Navigate to='/' />,
       children: [
         { path: "", element: <Navigate to='/dashboard/app' replace /> },
         { path: "app", element: <DashboardPage /> },

@@ -1,12 +1,7 @@
-import React from "react";
 import { Outlet } from "react-router-dom";
 
 const LandingLayout = () => {
-  return (
-    <div>
-      <Outlet />
-    </div>
-  );
+  return <Outlet />;
 };
 
 export default LandingLayout;
