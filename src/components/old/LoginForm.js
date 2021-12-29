@@ -27,26 +27,8 @@ const LoginForm = (props) => {
     event.preventDefault();
 
     setLoading(true);
-<<<<<<< HEAD
     signInWithEmailAndPassword(auth, email, password)
       .then((cred) => {
-=======
-    fetch(
-      "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=",
-      {
-        method: "POST",
-        body: JSON.stringify({
-          email,
-          password,
-          returnSecureToken: true,
-        }),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    )
-      .then((res) => {
->>>>>>> b5ae801a3e0c7ee1542cc18d822e472cefeae706
         setLoading(false);
         dispatch(login(cred._tokenResponse.idToken));
       })
