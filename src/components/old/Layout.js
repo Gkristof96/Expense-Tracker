@@ -20,7 +20,7 @@ import ListItemText from "@mui/material/ListItemText";
 import { format } from "date-fns";
 import Button from "@mui/material/Button";
 import { Avatar } from "@mui/material";
-import { logout } from "../features/user/userSlice";
+import { logout } from "../../features/user/userSlice";
 import { useDispatch, useSelector } from "react-redux";
 
 const drawerWidth = 240;
