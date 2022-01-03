@@ -45,7 +45,6 @@ const RegisterPage = () => {
         sm={7}
         md={7}
         elevation={6}
-        square
         sx={{
           display: "flex",
           alignItems: "center",

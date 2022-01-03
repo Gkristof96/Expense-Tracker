@@ -16,7 +16,6 @@ import GoalsPage from "./pages/Goals";
 
 export const Router = () => {
   const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
-  console.log(isLoggedIn);
   return useRoutes([
     {
       path: "/dashboard",
@@ -32,7 +31,7 @@ export const Router = () => {
     },
     {
       path: "/",
-      element: <LandingLayout />,
+      element: !isLoggedIn ? <LandingLayout /> : <Navigate to='/dashboard' />,
       children: [
         { path: "login", element: <LoginPage /> },
         { path: "register", element: <RegisterPage /> },

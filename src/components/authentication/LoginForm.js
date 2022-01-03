@@ -15,9 +15,16 @@ import * as Yup from "yup";
 import { useFormik, Form, FormikProvider } from "formik";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { auth } from "../../firebase";
+import { login } from "../../features/user/userSlice";
+import { signInWithEmailAndPassword } from "firebase/auth";
 
 const LoginForm = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const LoginSchema = Yup.object().shape({
     email: Yup.string()
@@ -34,7 +41,15 @@ const LoginForm = () => {
     },
     validationSchema: LoginSchema,
     onSubmit: () => {
-      console.log("submited: ", values.email, values.password, values.remember);
+      signInWithEmailAndPassword(auth, values.email, values.password)
+        .then((cred) => {
+          dispatch(login(cred._tokenResponse.idToken));
+          console.log("loggedIn");
+          navigate("/dashboard");
+        })
+        .catch((err) => {
+          console.log(err.message);
+        });
     },
   });
 
