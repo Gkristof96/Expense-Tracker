@@ -31,7 +31,7 @@ export const Router = () => {
     },
     {
       path: "/",
-      element: !isLoggedIn ? <LandingLayout /> : <Navigate to='/dashboard' />,
+      element: isLoggedIn ? <Navigate to='/dashboard' /> : <LandingLayout />,
       children: [
         { path: "login", element: <LoginPage /> },
         { path: "register", element: <RegisterPage /> },

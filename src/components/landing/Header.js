@@ -4,7 +4,6 @@ import { styled } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
 const HEADER_DEKSTOP = 80;
-const HEADER_MOBILE = 80;
 
 const HeaderStyle = styled("header")(({ theme }) => ({
   height: HEADER_DEKSTOP,
