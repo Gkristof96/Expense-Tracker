@@ -38,9 +38,11 @@ const DashboardNavbar = (props) => {
         >
           <MenuIcon />
         </IconButton>
-        <Typography variant='h6' color='GrayText' noWrap component='div'>
-          Expense Tracker
-        </Typography>
+        {!props.open && (
+          <Typography variant='h6' color='GrayText' noWrap component='div'>
+            Expense Tracker
+          </Typography>
+        )}
       </Toolbar>
     </AppBar>
   );

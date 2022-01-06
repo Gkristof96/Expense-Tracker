@@ -17,6 +17,12 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import InboxIcon from "@mui/icons-material/MoveToInbox";
 import MailIcon from "@mui/icons-material/Mail";
+import { Link as RouterLink } from "react-router-dom";
+import DashboardIcon from "@mui/icons-material/Dashboard";
+import MoneyOffIcon from "@mui/icons-material/MoneyOff";
+import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
+import FlagIcon from "@mui/icons-material/Flag";
+import AnalyticsIcon from "@mui/icons-material/Analytics";
 
 const drawerWidth = 240;
 
@@ -30,6 +36,33 @@ const DrawerHeader = styled("div")(({ theme }) => ({
 }));
 
 const DashboardDrawer = (props) => {
+  const pages = [
+    {
+      title: "Dashboard",
+      path: "./app",
+      icon: <DashboardIcon />,
+    },
+    {
+      title: "Expenses",
+      path: "./expenses",
+      icon: <MoneyOffIcon />,
+    },
+    {
+      title: "Incomes",
+      path: "./incomes",
+      icon: <AttachMoneyIcon />,
+    },
+    {
+      title: "Goals",
+      path: "./goals",
+      icon: <FlagIcon />,
+    },
+    {
+      title: "Analytics",
+      path: "./analytics",
+      icon: <AnalyticsIcon />,
+    },
+  ];
   return (
     <Drawer
       sx={{
@@ -51,26 +84,19 @@ const DashboardDrawer = (props) => {
       </DrawerHeader>
       <Divider />
       <List>
-        {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
-          <ListItem button key={text}>
-            <ListItemIcon>
-              {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-            </ListItemIcon>
-            <ListItemText primary={text} />
+        {pages.map((page, index) => (
+          <ListItem
+            component={RouterLink}
+            to={page.path}
+            button
+            key={page.title}
+          >
+            <ListItemIcon>{page.icon}</ListItemIcon>
+            <ListItemText primary={page.title} />
           </ListItem>
         ))}
       </List>
       <Divider />
-      <List>
-        {["All mail", "Trash", "Spam"].map((text, index) => (
-          <ListItem button key={text}>
-            <ListItemIcon>
-              {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-            </ListItemIcon>
-            <ListItemText primary={text} />
-          </ListItem>
-        ))}
-      </List>
     </Drawer>
   );
 };
