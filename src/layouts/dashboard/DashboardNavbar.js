@@ -1,8 +1,10 @@
-import { IconButton, Toolbar, Typography } from "@mui/material";
+import { Avatar, Badge, IconButton, Toolbar, Typography } from "@mui/material";
 import React from "react";
 import { styled, useTheme } from "@mui/material/styles";
 import MenuIcon from "@mui/icons-material/Menu";
 import MuiAppBar from "@mui/material/AppBar";
+import { auth } from "../../firebase";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 
 const drawerWidth = 240;
 
@@ -13,7 +15,7 @@ const AppBar = styled(MuiAppBar, {
     easing: theme.transitions.easing.sharp,
     duration: theme.transitions.duration.leavingScreen,
   }),
-  backgroundColor: "transparent",
+  backgroundColor: "#eee",
   ...(open && {
     width: `calc(100% - ${drawerWidth}px)`,
     marginLeft: `${drawerWidth}px`,
@@ -38,11 +40,26 @@ const DashboardNavbar = (props) => {
         >
           <MenuIcon />
         </IconButton>
-        {!props.open && (
-          <Typography variant='h6' color='GrayText' noWrap component='div'>
-            Expense Tracker
-          </Typography>
-        )}
+
+        <Typography
+          variant='h6'
+          color='GrayText'
+          noWrap
+          sx={{ flexGrow: 1 }}
+          component='div'
+        >
+          Expense Tracker
+        </Typography>
+        <Badge
+          overlap='circular'
+          anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+          badgeContent={<KeyboardArrowDownIcon fontSize='large' color='gray' />}
+        >
+          <Avatar
+            alt={auth.currentUser.displayName}
+            src={auth.currentUser.photoURL}
+          />
+        </Badge>
       </Toolbar>
     </AppBar>
   );

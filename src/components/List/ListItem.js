@@ -1,50 +1,26 @@
-import DeleteIcon from "@mui/icons-material/Delete";
-import {
-  Avatar,
-  Card,
-  CardContent,
-  IconButton,
-  Typography,
-} from "@mui/material";
+import { Card, CardContent, Typography } from "@mui/material";
 import { useDispatch } from "react-redux";
-import { removeExpense } from "../../features/balance/balanceSlice";
 import { makeStyles } from "@mui/styles";
 
 const useStyles = makeStyles({
   card: {
-    marginBottom: "10px",
+    marginBottom: "20px",
   },
   cardcontent: {
     display: "flex",
     alignItems: "center",
     justifyContent: "space-between",
   },
-  avatar: { flexGrow: 0, marginRight: "15px" },
-  title: { flexGrow: 4 },
   value: { flexGrow: 4 },
-  date: { flexGrow: 4 },
-  btn: { flexGrow: 0 },
 });
 
 const ListItem = ({ data }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
-
-  const removeExpenseHandler = () => {
-    dispatch(removeExpense(data.id));
-  };
   return (
     <Card className={classes.card}>
       <CardContent className={classes.cardcontent}>
-        <Avatar className={classes.avatar}>{data.category[0]}</Avatar>
-        <Typography className={classes.value}>{data.value} Ft</Typography>
-        <Typography className={classes.title}>{data.title}</Typography>
-        <Typography className={classes.date}>
-          {`${data.date.day} ${data.date.year} ${data.date.month}`}
-        </Typography>
-        <IconButton className={classes.btn}>
-          <DeleteIcon onClick={removeExpenseHandler} />
-        </IconButton>
+        <Typography className={classes.value}>{data.name}</Typography>
       </CardContent>
     </Card>
   );

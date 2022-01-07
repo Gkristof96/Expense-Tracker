@@ -71,7 +71,7 @@ const DrawerHeader = styled("div")(({ theme }) => ({
 
 const DashboardLayout = () => {
   const theme = useTheme();
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(true);
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -83,7 +83,6 @@ const DashboardLayout = () => {
 
   return (
     <Box sx={{ display: "flex" }}>
-      <CssBaseline />
       <DashboardNavbar onDrawerOpen={handleDrawerOpen} open={open} />
       <DashboardDrawer onDrawerClose={handleDrawerClose} open={open} />
       <Main open={open} sx={{ mt: "50px" }}>
