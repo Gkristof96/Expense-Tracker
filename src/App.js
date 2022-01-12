@@ -19,7 +19,7 @@ const theme = createTheme({
 
 function App() {
   const dispatch = useDispatch();
-  const unsubAuth = onAuthStateChanged(auth, (user) => {
+  onAuthStateChanged(auth, (user) => {
     if (user) {
       dispatch(login(user.accessToken));
     }

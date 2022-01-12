@@ -10,7 +10,6 @@ import {
   IconButton,
   InputAdornment,
 } from "@mui/material";
-import React from "react";
 import * as Yup from "yup";
 import { useFormik, Form, FormikProvider } from "formik";
 import VisibilityIcon from "@mui/icons-material/Visibility";
