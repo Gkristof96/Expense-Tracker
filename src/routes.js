@@ -13,6 +13,8 @@ import ExpensesPage from "./pages/Expenses";
 import IncomesPage from "./pages/Incomes";
 import AnalyticsPage from "./pages/Analytics";
 import GoalsPage from "./pages/Goals";
+import UserProfilePage from "./pages/UserProfile";
+import UserSettingsPage from "./pages/UserSettings";
 
 export const Router = () => {
   const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
@@ -27,6 +29,9 @@ export const Router = () => {
         { path: "incomes", element: <IncomesPage /> },
         { path: "analytics", element: <AnalyticsPage /> },
         { path: "goals", element: <GoalsPage /> },
+        { path: "profile", element: <UserProfilePage /> },
+        { path: "profile/settings", element: <UserSettingsPage /> },
+        { path: "*", element: <Navigate to='/404' /> },
       ],
     },
     {
