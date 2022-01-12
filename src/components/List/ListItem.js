@@ -1,5 +1,4 @@
 import { Card, CardContent, Typography } from "@mui/material";
-import { useDispatch } from "react-redux";
 import { makeStyles } from "@mui/styles";
 
 const useStyles = makeStyles({
@@ -16,7 +15,6 @@ const useStyles = makeStyles({
 
 const ListItem = ({ data }) => {
   const classes = useStyles();
-  const dispatch = useDispatch();
   return (
     <Card className={classes.card}>
       <CardContent className={classes.cardcontent}>

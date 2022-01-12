@@ -1,15 +1,17 @@
-import { LocalizationProvider, DatePicker } from "@mui/lab";
+import { LocalizationProvider, DatePicker, LoadingButton } from "@mui/lab";
 import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import {
-  Button,
+  //Button,
   FormControl,
+  FormHelperText,
   MenuItem,
   Select,
   Stack,
   TextField,
 } from "@mui/material";
-import { useState } from "react";
 import { makeStyles } from "@mui/styles";
+import { useFormik, Form, FormikProvider } from "formik";
+import * as Yup from "yup";
 
 const useStyles = makeStyles({
   form: {
@@ -23,79 +25,109 @@ const useStyles = makeStyles({
 const NewItemForm = (props) => {
   const classes = useStyles();
 
-  const [value, setValue] = useState("");
-  const [title, setTitle] = useState("");
-  const [category, setCategory] = useState("");
-  const [date, setDate] = useState(null);
+  const ItemSchema = Yup.object().shape({
+    value: Yup.string().required("Values is required"),
+    title: Yup.string()
+      .required("Title is required")
+      .max(32, "Title is too long"),
+    category: Yup.string().required("Category is required"),
+  });
 
-  const submitHandler = (event) => {
+  const formik = useFormik({
+    initialValues: {
+      value: "",
+      title: "",
+      category: "",
+      date: new Date(),
+    },
+    validationSchema: ItemSchema,
+    onSubmit: () => {
+      console.log(values.value, values.title, values.category, values.date);
+    },
+  });
+
+  /*const submitHandler = (event) => {
     event.preventDefault();
     if (value !== "" && category !== "" && date !== "" && title !== "") {
       props.onSubmit({ value, title, category, date });
     }
-  };
+  };*/
+
+  const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } =
+    formik;
 
   return (
-    <form
-      className={classes.form}
-      onSubmit={submitHandler}
-      noValidate
-      autoComplete='off'
-    >
-      <Stack spacing={3}>
-        <TextField
-          fullWidth
-          variant='outlined'
-          value={value}
-          onChange={(event) => setValue(event.target.value)}
-          label='Value'
-        />
-        <TextField
-          variant='outlined'
-          value={title}
-          onChange={(event) => setTitle(event.target.value)}
-          label='Title'
-        />
-        <FormControl sx={{ m: 1, minWidth: 120 }}>
-          <Select
-            label='Category'
-            variant='outlined'
-            value={category}
-            onChange={(event) => setCategory(event.target.value)}
-          >
-            <MenuItem value='Groceries'>
-              <em>Groceries</em>
-            </MenuItem>
-            <MenuItem value='Fun'>Fun</MenuItem>
-            <MenuItem value='Bill'>Bill</MenuItem>
-            <MenuItem value='Tech'>Tech</MenuItem>
-          </Select>
-        </FormControl>
-        <LocalizationProvider dateAdapter={AdapterDateFns}>
-          <DatePicker
-            label='Basic example'
-            value={date}
-            onChange={(newValue) => {
-              setDate(newValue);
-            }}
-            renderInput={(params) => (
-              <TextField variant='outlined' {...params} />
-            )}
-          />
-        </LocalizationProvider>
-      </Stack>
-
-      <Button
-        fullWidth
-        sx={{ mt: "25px" }}
-        type='submit'
-        color='primary'
-        size='large'
-        variant='contained'
+    <FormikProvider value={formik}>
+      <Form
+        className={classes.form}
+        autoComplete='off'
+        noValidate
+        onSubmit={handleSubmit}
       >
-        Add Expense
-      </Button>
-    </form>
+        <Stack spacing={3}>
+          <TextField
+            fullWidth
+            autoComplete='value'
+            type='text'
+            label='Value'
+            {...getFieldProps("value")}
+            error={Boolean(touched.value && errors.value)}
+            helperText={touched.value && errors.value}
+          />
+          <TextField
+            fullWidth
+            autoComplete='title'
+            type='text'
+            label='Title'
+            {...getFieldProps("title")}
+            error={Boolean(touched.title && errors.title)}
+            helperText={touched.title && errors.title}
+          />
+          <FormControl sx={{ m: 1, minWidth: 120 }} error>
+            <Select
+              label='Category'
+              variant='outlined'
+              autoComplete='category'
+              value={`3`}
+              {...getFieldProps("category")}
+              error={Boolean(touched.category && errors.category)}
+            >
+              <MenuItem value='Groceries'>
+                <em>Groceries</em>
+              </MenuItem>
+              <MenuItem value='Fun'>Fun</MenuItem>
+              <MenuItem value='Bill'>Bill</MenuItem>
+              <MenuItem value='Tech'>Tech</MenuItem>
+            </Select>
+            {Boolean(touched.category) && (
+              <FormHelperText>{errors.category}</FormHelperText>
+            )}
+          </FormControl>
+          <LocalizationProvider dateAdapter={AdapterDateFns}>
+            <DatePicker
+              label='Basic example'
+              {...getFieldProps("date")}
+              autoComplete='date'
+              renderInput={(params) => (
+                <TextField variant='outlined' {...params} />
+              )}
+            />
+          </LocalizationProvider>
+        </Stack>
+
+        <LoadingButton
+          fullWidth
+          sx={{ mt: "25px" }}
+          type='submit'
+          color='primary'
+          size='large'
+          variant='contained'
+          loading={isSubmitting}
+        >
+          Add Expense
+        </LoadingButton>
+      </Form>
+    </FormikProvider>
   );
 };
 
