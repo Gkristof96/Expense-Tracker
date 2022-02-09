@@ -1,7 +1,6 @@
 import {
   Avatar,
   Card,
-  CardContent,
   IconButton,
   Typography,
   Button,
@@ -10,28 +9,13 @@ import {
   Stack,
 } from "@mui/material";
 import { useState } from "react";
-import CloseIcon from "@mui/icons-material/Close";
-import { makeStyles } from "@mui/styles";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { firestore, auth } from "../../firebase";
 import { doc, deleteDoc } from "firebase/firestore";
 import Grid from "@mui/material/Grid";
 
-const useStyles = makeStyles({
-  card: {
-    marginBottom: "20px",
-  },
-  cardcontent: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "space-between",
-  },
-  value: { flexGrow: 4 },
-});
-
 const ListItem = ({ data }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const classes = useStyles();
 
   const expenseRef = doc(
     firestore,
@@ -54,8 +38,6 @@ const ListItem = ({ data }) => {
         console.log(err.message);
       });
   };
-
-  console.log(data);
   return (
     <>
       <Modal
@@ -69,7 +51,7 @@ const ListItem = ({ data }) => {
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
-            width: "400px",
+            maxWidth: "400px",
             position: "relative",
           }}
         >
@@ -86,19 +68,19 @@ const ListItem = ({ data }) => {
       </Modal>
       <Card sx={{ mb: "15px" }}>
         <Grid container sx={{ p: "10px", alignItems: "center" }}>
-          <Grid item xs={0.5}>
+          <Grid item xs={1}>
             <Avatar>{data.category[0]}</Avatar>
           </Grid>
-          <Grid item xs={3.5}>
+          <Grid item xs={3}>
             <Typography sx={{ pl: "25px" }}>{data.value} Ft</Typography>
           </Grid>
-          <Grid item xs={4.5}>
+          <Grid item xs={4}>
             <Typography>{data.title}</Typography>
           </Grid>
           <Grid item xs={3}></Grid>
-          <Grid item xs={0.5}>
-            <IconButton>
-              <DeleteIcon onClick={openModalHandler} />
+          <Grid item xs={1}>
+            <IconButton onClick={openModalHandler}>
+              <DeleteIcon />
             </IconButton>
           </Grid>
         </Grid>

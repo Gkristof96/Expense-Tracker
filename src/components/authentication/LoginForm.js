@@ -43,7 +43,6 @@ const LoginForm = () => {
       signInWithEmailAndPassword(auth, values.email, values.password)
         .then((cred) => {
           dispatch(login(cred._tokenResponse.idToken));
-          console.log("loggedIn");
           navigate("/dashboard");
         })
         .catch((err) => {

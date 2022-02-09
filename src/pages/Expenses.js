@@ -7,6 +7,10 @@ import {
   Typography,
   Modal,
   IconButton,
+  Pagination,
+  MenuItem,
+  Select,
+  FormControl,
 } from "@mui/material";
 import { Box } from "@mui/system";
 import { useState, useEffect } from "react";
@@ -19,7 +23,7 @@ import CloseIcon from "@mui/icons-material/Close";
 
 const ExpensesPage = () => {
   const [modalOpen, setModalOpen] = useState(false);
-
+  const [sort, setSort] = useState("");
   const [expenses, setExpenses] = useState([]);
 
   const expensesRef = collection(
@@ -40,6 +44,10 @@ const ExpensesPage = () => {
 
   const closeModalHandler = () => {
     setModalOpen(false);
+  };
+
+  const changeSortHandler = (event) => {
+    setSort(event.target.value);
   };
 
   return (
@@ -73,7 +81,14 @@ const ExpensesPage = () => {
           New Expense
         </Button>
       </Box>
-      <Paper sx={{ p: " 10px 25px" }}>
+      <Paper
+        sx={{
+          p: " 10px 25px",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+        }}
+      >
         <Box
           sx={{
             m: "25px 0",
@@ -92,8 +107,23 @@ const ExpensesPage = () => {
               ),
             }}
           />
+          <FormControl variant='standard' sx={{ m: 1, minWidth: 120 }}>
+            <Select
+              value={sort}
+              onChange={changeSortHandler}
+              displayEmpty
+              inputProps={{ "aria-label": "Without label" }}
+            >
+              <MenuItem value={10}>Descent</MenuItem>
+              <MenuItem value={20}>Ascent</MenuItem>
+            </Select>
+          </FormControl>
         </Box>
-        <List items={expenses} />
+        <Box sx={{ width: "100%" }}>
+          <List items={expenses} />
+        </Box>
+
+        <Pagination sx={{ m: "20px" }} count={10} shape='rounded' />
       </Paper>
     </Container>
   );

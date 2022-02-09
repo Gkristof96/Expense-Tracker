@@ -97,16 +97,13 @@ const NewItemForm = (props) => {
           />
           <FormControl sx={{ m: 1, minWidth: 120 }} error>
             <Select
-              label='Category'
-              variant='outlined'
+              displayEmpty
+              inputProps={{ "aria-label": "Without label" }}
               autoComplete='category'
-              value={`3`}
               {...getFieldProps("category")}
               error={Boolean(touched.category && errors.category)}
             >
-              <MenuItem value='Groceries'>
-                <em>Groceries</em>
-              </MenuItem>
+              <MenuItem value='Groceries'>Groceries</MenuItem>
               <MenuItem value='Fun'>Fun</MenuItem>
               <MenuItem value='Bill'>Bill</MenuItem>
               <MenuItem value='Tech'>Tech</MenuItem>
@@ -120,9 +117,7 @@ const NewItemForm = (props) => {
               label='Basic example'
               {...getFieldProps("date")}
               autoComplete='date'
-              renderInput={(params) => (
-                <TextField variant='outlined' {...params} />
-              )}
+              renderInput={(params) => <TextField {...params} />}
             />
           </LocalizationProvider>
         </Stack>
