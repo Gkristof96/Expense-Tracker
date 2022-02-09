@@ -15,6 +15,7 @@ import { makeStyles } from "@mui/styles";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { firestore, auth } from "../../firebase";
 import { doc, deleteDoc } from "firebase/firestore";
+import Grid from "@mui/material/Grid";
 
 const useStyles = makeStyles({
   card: {
@@ -83,15 +84,24 @@ const ListItem = ({ data }) => {
           </Stack>
         </Paper>
       </Modal>
-      <Card className={classes.card}>
-        <CardContent className={classes.cardcontent}>
-          <Avatar>{data.category[0]}</Avatar>
-          <Typography>{data.value}</Typography>
-          <Typography>{data.title}</Typography>
-          <IconButton>
-            <DeleteIcon onClick={openModalHandler} />
-          </IconButton>
-        </CardContent>
+      <Card sx={{ mb: "15px" }}>
+        <Grid container sx={{ p: "10px", alignItems: "center" }}>
+          <Grid item xs={0.5}>
+            <Avatar>{data.category[0]}</Avatar>
+          </Grid>
+          <Grid item xs={3.5}>
+            <Typography sx={{ pl: "25px" }}>{data.value} Ft</Typography>
+          </Grid>
+          <Grid item xs={4.5}>
+            <Typography>{data.title}</Typography>
+          </Grid>
+          <Grid item xs={3}></Grid>
+          <Grid item xs={0.5}>
+            <IconButton>
+              <DeleteIcon onClick={openModalHandler} />
+            </IconButton>
+          </Grid>
+        </Grid>
       </Card>
     </>
   );
