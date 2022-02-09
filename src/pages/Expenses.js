@@ -5,14 +5,13 @@ import {
   Paper,
   TextField,
   Typography,
-  FormControl,
-  Select,
-  MenuItem,
   Modal,
   IconButton,
 } from "@mui/material";
 import { Box } from "@mui/system";
-import React, { useState } from "react";
+import { useState, useEffect } from "react";
+import { firestore, auth } from "../firebase";
+import { onSnapshot, collection } from "firebase/firestore";
 import SearchIcon from "@mui/icons-material/Search";
 import List from "../components/list/List";
 import NewItemForm from "../components/list/NewItemForm";
@@ -20,6 +19,20 @@ import CloseIcon from "@mui/icons-material/Close";
 
 const ExpensesPage = () => {
   const [modalOpen, setModalOpen] = useState(false);
+
+  const [expenses, setExpenses] = useState([]);
+
+  const expensesRef = collection(
+    firestore,
+    `users/${auth.currentUser.uid}/expenses`
+  );
+
+  useEffect(() => {
+    onSnapshot(expensesRef, (snapshot) => {
+      setExpenses(snapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+    });
+    // eslint-disable-next-line
+  }, []);
 
   const openModalHandler = () => {
     setModalOpen(true);
@@ -44,7 +57,7 @@ const ExpensesPage = () => {
           >
             <CloseIcon />
           </IconButton>
-          <NewItemForm />
+          <NewItemForm onClick={closeModalHandler} />
         </Paper>
       </Modal>
       <Box
@@ -79,15 +92,8 @@ const ExpensesPage = () => {
               ),
             }}
           />
-          <FormControl variant='standard' sx={{ width: "100px" }}>
-            <Select>
-              <MenuItem value={1}>1</MenuItem>
-              <MenuItem value={2}>2</MenuItem>
-              <MenuItem value={3}>3</MenuItem>
-            </Select>
-          </FormControl>
         </Box>
-        <List></List>
+        <List items={expenses} />
       </Paper>
     </Container>
   );

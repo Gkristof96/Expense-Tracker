@@ -1,5 +1,7 @@
-const Analytics = () => {
-  return <div>Analytics</div>;
+import React from "react";
+
+const AnalyticsPage = () => {
+  return <div>AnalyticsPage</div>;
 };
 
-export default Analytics;
+export default AnalyticsPage;

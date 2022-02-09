@@ -11,6 +11,8 @@ import {
 } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import { useFormik, Form, FormikProvider } from "formik";
+import { firestore, auth } from "../../firebase";
+import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import * as Yup from "yup";
 
 const useStyles = makeStyles({
@@ -24,6 +26,11 @@ const useStyles = makeStyles({
 
 const NewItemForm = (props) => {
   const classes = useStyles();
+
+  const expensesRef = collection(
+    firestore,
+    `users/${auth.currentUser.uid}/expenses`
+  );
 
   const ItemSchema = Yup.object().shape({
     value: Yup.string().required("Values is required"),
@@ -42,16 +49,21 @@ const NewItemForm = (props) => {
     },
     validationSchema: ItemSchema,
     onSubmit: () => {
-      console.log(values.value, values.title, values.category, values.date);
+      addNewExpenseHandler();
     },
   });
 
-  /*const submitHandler = (event) => {
-    event.preventDefault();
-    if (value !== "" && category !== "" && date !== "" && title !== "") {
-      props.onSubmit({ value, title, category, date });
-    }
-  };*/
+  const addNewExpenseHandler = () => {
+    addDoc(expensesRef, {
+      value: values.value,
+      title: values.title,
+      category: values.category,
+      expenseDate: values.date,
+      createdAt: serverTimestamp(),
+    }).then(() => {
+      props.onClick();
+    });
+  };
 
   const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } =
     formik;

@@ -1,21 +1,14 @@
-import { Box } from "@mui/system";
-import { Container, Typography } from "@mui/material";
-import NewItemForm from "../components/NewItemForm";
+import React, { Fragment } from "react";
+import Header from "../components/landing/Header";
+import Hero from "../components/landing/Hero";
 
-const Home = () => {
-  console.log("home");
+const HomePage = () => {
   return (
-    <Container
-      sx={{
-        height: "calc((100vh - 80px))",
-        backgroundColor: "red",
-        width: "100%",
-      }}
-    >
-      <Typography color='primary'>Hello there</Typography>
-      <NewItemForm onSubmit={console.log("megy")} />
-    </Container>
+    <Fragment>
+      <Header />
+      <Hero />
+    </Fragment>
   );
 };
 
-export default Home;
+export default HomePage;

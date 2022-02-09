@@ -18,7 +18,7 @@ const ListItem = ({ data }) => {
   return (
     <Card className={classes.card}>
       <CardContent className={classes.cardcontent}>
-        <Typography className={classes.value}>{data.name}</Typography>
+        <Typography className={classes.value}>{data.title}</Typography>
       </CardContent>
     </Card>
   );
