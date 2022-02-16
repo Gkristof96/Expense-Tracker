@@ -11,9 +11,8 @@ import {
 } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import { useFormik, Form, FormikProvider } from "formik";
-import { firestore, auth } from "../../firebase";
-import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import * as Yup from "yup";
+import { useDispatch } from "react-redux";
 
 const useStyles = makeStyles({
   form: {
@@ -25,12 +24,8 @@ const useStyles = makeStyles({
 });
 
 const NewItemForm = (props) => {
+  const dispatch = useDispatch();
   const classes = useStyles();
-
-  const expensesRef = collection(
-    firestore,
-    `users/${auth.currentUser.uid}/expenses`
-  );
 
   const ItemSchema = Yup.object().shape({
     value: Yup.string().required("Values is required"),
@@ -49,21 +44,17 @@ const NewItemForm = (props) => {
     },
     validationSchema: ItemSchema,
     onSubmit: () => {
-      addNewExpenseHandler();
+      /*dispatch(
+        saveExpenseData({
+          value: values.value,
+          title: values.title,
+          category: values.category,
+          //expenseDate: values.date,
+          //createdAt: serverTimestamp(),
+        })
+      );*/
     },
   });
-
-  const addNewExpenseHandler = () => {
-    addDoc(expensesRef, {
-      value: values.value,
-      title: values.title,
-      category: values.category,
-      expenseDate: values.date,
-      createdAt: serverTimestamp(),
-    }).then(() => {
-      props.onClick();
-    });
-  };
 
   const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } =
     formik;

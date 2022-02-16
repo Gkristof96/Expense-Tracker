@@ -1,6 +1,27 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
+  expenses: [],
+};
+
+const balanceSlice = createSlice({
+  name: "balance",
+  initialState,
+  reducers: {
+    addNewExpense: (state, action) => {
+      console.log(action.payload);
+      const newExpense = action.payload;
+      state.expenses.push({
+        id: newExpense.value,
+        value: newExpense.value,
+        title: newExpense.title,
+        category: newExpense.category,
+      });
+    },
+  },
+});
+
+/* const initialState = {
   balance: 200000,
   currentMonthExpense: 0,
   currentMonthIncome: 0,
@@ -68,16 +89,8 @@ const balanceSlice = createSlice({
       }, 0);
     },
   },
-});
+}); */
 
-export const {
-  incrementBalance,
-  decrementBalance,
-  addExpense,
-  removeExpense,
-  addIncome,
-  removeIncome,
-  calculateCurrentMonthExpenses,
-} = balanceSlice.actions;
+export const { addNewExpense } = balanceSlice.actions;
 
 export default balanceSlice;
